@@ -1,47 +1,150 @@
-# MT_AQ
-MT管理器论坛自动签到脚本
+# MT_AQ -MT论坛自动签到脚本
 
-## 简介
+## 项目简介
 
-这是一个用于自动在指定论坛（https://bbs.binmt.cc）进行签到的Python脚本。它能够模拟登录、检测是否已经签到、执行签到操作并获取签到统计数据。
+这是一个用于MT论坛自动签到的Python脚本，支持多账号管理、验证码自动识别和错误重试等功能。
 
-## 依赖安装指南
+### 主要功能
 
-为了运行这个脚本，你需要确保你的环境中已安装了以下Python库：
+- 支持多账号自动签到
+- 使用百度OCR API自动识别验证码
+- 智能Cookie管理和自动更新
+- 详细的日志记录
+- 灵活的配置选项
+- 错误重试机制
 
-- `requests`: 用于发送HTTP请求。
-- `beautifulsoup4`: 用于解析HTML页面内容。
-- `re`: 正则表达式模块，用于从HTML中提取特定信息。
-- `datetime`: 处理日期和时间。
+## 环境要求
 
-你可以使用pip来安装所需的第三方库：
+- Python 3.6 或更高版本
+- 百度OCR API 账号（用于验证码识别）
 
-```shell
-pip install requests beautifulsoup4
+## 依赖安装
+
+1. 克隆或下载项目到本地
+
+2. 安装所需的Python包：
+```bash
+pip install requests
+pip install Pillow
+pip install baidu-aip
 ```
 
-`re` 和 `datetime` 是Python标准库的一部分，因此不需要额外安装。
+## 配置说明
 
-## 使用说明
+### 配置文件 (config.json)
 
-### 配置账号信息
+配置文件包含以下主要部分：
 
-请在脚本的开头找到如下代码段，并将`USERNAME`和`PASSWORD`替换为你自己的论坛用户名和密码：
-
-```python
-USERNAME = 'USERNAME'  # 替换为你的论坛用户名
-PASSWORD = 'PASSWORD'  # 替换为你的论坛密码
+1. API配置
+```json
+"api": {
+    "baidu_ocr": {
+        "api_key": "你的百度OCR API Key",
+        "secret_key": "你的百度OCR Secret Key"
+    }
+}
 ```
 
-### 运行脚本
+2. 请求配置
+```json
+"request": {
+    "timeout": 30,        // 请求超时时间（秒）
+    "max_retries": 3,     // 最大重试次数
+    "retry_delay": 3,     // 重试间隔时间（秒）
+    "captcha_max_attempts": 3  // 验证码识别最大尝试次数
+}
+```
 
-确保你已经按照上述步骤配置好账号信息和安装必要的依赖后，就可以通过命令行或IDE运行该脚本了。
+3. 路径配置
+```json
+"paths": {
+    "accounts_file": "accounts.json",  // 账号配置文件
+    "cookies_dir": "cookies",         // Cookie存储目录
+    "logs_dir": "logs",              // 日志存储目录
+    "history_file": "sign_history.json" // 签到历史记录
+}
+```
 
-### 脚本输出
+4. 签到配置
+```json
+"sign": {
+    "account_delay": {     // 不同账号间的签到延迟（分钟）
+        "min": 5,
+        "max": 10
+    },
+    "error_delay": {       // 出错重试延迟（分钟）
+        "min": 10,
+        "max": 15
+    }
+}
+```
 
-- 成功登录时会显示“[成功] 登录成功”。
-- 如果今日已签到，则会显示“[提示] 今日已完成签到，无需重复操作”。
-- 签到成功后，会展示详细的签到统计信息，包括连续签到天数、今日排名、签到等级、本次积分奖励及总签到天数。
+### 账号配置 (accounts.json)
+
+在accounts.json中配置你的MT论坛账号：
+
+```json
+[
+    {
+        "username": "你的用户名",
+        "password": "你的密码"
+    },
+    {
+        "username": "其他用户名",
+        "password": "其他密码"
+    }
+]
+```
+
+## 使用方法
+
+组合模式（推荐）
+```bash
+python mt_combined.py
+```
+
+## 日志说明
+
+- 脚本会在logs目录下生成日志文件
+- 日志文件名格式：mt_sign_YYYY-MM-DD.log
+- 记录签到过程、错误信息和重试情况
+
+## 常见问题
+
+1. **验证码识别失败**
+   - 确保百度OCR API配置正确
+   - 检查API额度是否用尽
+   - 可以适当增加重试次数
+
+2. **Cookie失效**
+   - 脚本会自动重新登录获取新Cookie
+   - 确保账号密码正确
+
+3. **签到失败**
+   - 检查网络连接
+   - 查看日志文件了解具体原因
+   - 可能需要调整重试参数
+
+## 更新日志
+
+### 验证码处理
+- 添加了验证码检测和下载功能
+- 集成了百度OCR API进行验证码识别
+- 实现了验证码识别失败后的自动重试机制
+
+### Cookie管理功能
+- 添加了Cookie保存到本地文件的功能
+- 实现了从本地文件加载Cookie的功能
+- 增加了Cookie有效性检查，失效时自动使用账号密码重新登录
+
+### 用户体验优化
+- 添加了详细的日志输出，方便用户了解脚本执行状态
+- 优化了错误处理，提高了脚本的稳定性
+
+## 免责声明
+
+本脚本仅供学习交流使用，请勿用于商业用途。使用本脚本产生的任何后果由使用者自行承担。
+```
 
 ### 注意事项
 
