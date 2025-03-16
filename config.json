@@ -1,0 +1,57 @@
+{
+    "api": {
+        "baidu_ocr": {
+            "api_key": "你的百度OCR API Key",
+            "secret_key": "你的百度OCR Secret Key"
+        }
+    },
+    "request": {
+        "timeout": 30,
+        "max_retries": 3,
+        "retry_delay": 3,
+        "captcha_max_attempts": 3
+    },
+    "paths": {
+        "accounts_file": "accounts.json",
+        "cookies_dir": "cookies",
+        "logs_dir": "logs",
+        "history_file": "sign_history.json"
+    },
+    "sign": {
+        "account_delay": {
+            "min": 5,
+            "max": 10
+        },
+        "error_delay": {
+            "min": 10,
+            "max": 15
+        }
+    }
+}
+
+# 配置文件说明：
+
+# api：API相关配置
+# - baidu_ocr：百度OCR API配置
+#   - api_key：百度OCR的API Key
+#   - secret_key：百度OCR的Secret Key
+
+# request：请求相关配置
+# - timeout：请求超时时间（秒）
+# - max_retries：最大重试次数
+# - retry_delay：重试间隔时间（秒）
+# - captcha_max_attempts：验证码识别最大尝试次数
+
+# paths：路径相关配置
+# - accounts_file：账号配置文件路径
+# - cookies_dir：Cookie文件存储目录
+# - logs_dir：日志文件存储目录
+# - history_file：签到历史记录文件路径
+
+# sign：签到相关配置
+# - account_delay：不同账号间的签到延迟时间（分钟）
+#   - min：最小延迟时间
+#   - max：最大延迟时间
+# - error_delay：出错重试的延迟时间（分钟）
+#   - min：最小延迟时间
+#   - max：最大延迟时间
