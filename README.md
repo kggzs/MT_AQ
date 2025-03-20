@@ -6,10 +6,13 @@
 
 ### 主要功能
 
-- 支持多账号自动签到
-- 使用百度OCR API自动识别验证码
-- 智能Cookie管理和自动更新
+- 多账号管理和自动签到
+- 百度OCR API自动识别验证码
+- 支持安全提问设置
+- 智能延迟和重试机制
 - 详细的日志记录
+- 签到历史和积分统计
+- 智能Cookie管理和自动更新
 - 灵活的配置选项
 - 错误重试机制
 
@@ -18,83 +21,52 @@
 - Python 3.6 或更高版本
 - 百度OCR API 账号（用于验证码识别）
 
-## 依赖安装
+## 安装说明
 
-1. 克隆或下载项目到本地
-
-2. 安装所需的Python包：
+1. 确保已安装Python 3.6或更高版本
+2. 安装所需依赖包：
 ```bash
-pip install requests
-pip install Pillow
-pip install baidu-aip
+pip install requests beautifulsoup4
 ```
 
 ## 配置说明
 
-### 配置文件 (config.json)
-
-配置文件包含以下主要部分：
-
-1. API配置
-```json
-"api": {
-    "baidu_ocr": {
-        "api_key": "你的百度OCR API Key",
-        "secret_key": "你的百度OCR Secret Key"
-    }
-}
-```
-
-2. 请求配置
-```json
-"request": {
-    "timeout": 30,        // 请求超时时间（秒）
-    "max_retries": 3,     // 最大重试次数
-    "retry_delay": 3,     // 重试间隔时间（秒）
-    "captcha_max_attempts": 3  // 验证码识别最大尝试次数
-}
-```
-
-3. 路径配置
-```json
-"paths": {
-    "accounts_file": "accounts.json",  // 账号配置文件
-    "cookies_dir": "cookies",         // Cookie存储目录
-    "logs_dir": "logs",              // 日志存储目录
-    "history_file": "sign_history.json" // 签到历史记录
-}
-```
-
-4. 签到配置
-```json
-"sign": {
-    "account_delay": {     // 不同账号间的签到延迟（分钟）
-        "min": 5,
-        "max": 10
-    },
-    "error_delay": {       // 出错重试延迟（分钟）
-        "min": 10,
-        "max": 15
-    }
-}
-```
-
-### 账号配置 (accounts.json)
-
-在accounts.json中配置你的MT论坛账号：
-
+### 1. 账号配置
+在`accounts.json`文件中配置账号信息：
 ```json
 [
     {
         "username": "你的用户名",
-        "password": "你的密码"
-    },
-    {
-        "username": "其他用户名",
-        "password": "其他密码"
+        "password": "你的密码",
+        "questionid": 0,  // 安全提问ID，默认为0
+        "answer": ""     // 安全提问答案，默认为空
     }
 ]
 ```
+0-安全提问(未设置请忽略)
+1-母亲的名字
+2-爷爷的名字
+3-父亲出生的城市
+4-您其中一位老师的名字
+5-您个人计算机的型号
+6-您最喜欢的餐馆名称
+7-驾驶执照最后四位数字
+
+### 2. 验证码识别配置
+在`config.json`文件中配置百度OCR API信息：
+```json
+{
+    "API_KEY": "你的百度OCR API Key",
+    "SECRET_KEY": "你的百度OCR Secret Key"
+}
+```
+
+### 3. 其他配置项
+可在`config_manager.py`中调整以下参数：
+- 账号间隔延迟时间
+- 错误重试次数
+- 超时设置
+- 日志配置
 
 ## 使用方法
 
