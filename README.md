@@ -148,10 +148,16 @@ python MT2.py
 - 添加了详细的日志输出，方便用户了解脚本执行状态
 - 优化了错误处理，提高了脚本的稳定性
 
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kggzs/MT_AQ&type=Date)](https://www.star-history.com/#kggzs/MT_AQ&Date)
+
+
 ## 免责声明
 
 本脚本仅供学习交流使用，请勿用于商业用途。使用本脚本产生的任何后果由使用者自行承担。
 ```
+
+
 
 ### 注意事项
 
